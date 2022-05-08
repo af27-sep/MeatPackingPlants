@@ -33,8 +33,8 @@
         <script src="js/labels.js"></script>
         <script src="js/leaflet.markercluster.js"></script>
         <script src="js/leaflet-search.js"></script>
-        <script src="data/StateBoundaries_0.js"></script>
-        <script src="data/MeatPackingPlants_1.js"></script>
+        <script src="data/StateBoundaries_1.js"></script>
+        <script src="data/MeatPackingPlants_2.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -54,7 +54,7 @@
         }
         var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:1
-        }).fitBounds([[24.960791626955306,-124.65941055893857],[51.30193100712291,-67.96525485893856]]);
+        }).fitBounds([[21.253298646272842,-138.5682194152456],[54.22801058537035,-45.929951048452665]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -62,7 +62,20 @@
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
-        function pop_StateBoundaries_0(feature, layer) {
+        map.createPane('pane_CartoLight_0');
+        map.getPane('pane_CartoLight_0').style.zIndex = 400;
+        var layer_CartoLight_0 = L.tileLayer('http://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.pn', {
+            pane: 'pane_CartoLight_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 22
+        });
+        layer_CartoLight_0;
+        map.addLayer(layer_CartoLight_0);
+        function pop_StateBoundaries_1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (i in e.target._eventParents) {
@@ -110,9 +123,9 @@
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
 
-        function style_StateBoundaries_0_0() {
+        function style_StateBoundaries_1_0() {
             return {
-                pane: 'pane_StateBoundaries_0',
+                pane: 'pane_StateBoundaries_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -125,21 +138,21 @@
                 interactive: false,
             }
         }
-        map.createPane('pane_StateBoundaries_0');
-        map.getPane('pane_StateBoundaries_0').style.zIndex = 400;
-        map.getPane('pane_StateBoundaries_0').style['mix-blend-mode'] = 'normal';
-        var layer_StateBoundaries_0 = new L.geoJson(json_StateBoundaries_0, {
+        map.createPane('pane_StateBoundaries_1');
+        map.getPane('pane_StateBoundaries_1').style.zIndex = 401;
+        map.getPane('pane_StateBoundaries_1').style['mix-blend-mode'] = 'normal';
+        var layer_StateBoundaries_1 = new L.geoJson(json_StateBoundaries_1, {
             attribution: '',
             interactive: false,
-            dataVar: 'json_StateBoundaries_0',
-            layerName: 'layer_StateBoundaries_0',
-            pane: 'pane_StateBoundaries_0',
-            onEachFeature: pop_StateBoundaries_0,
-            style: style_StateBoundaries_0_0,
+            dataVar: 'json_StateBoundaries_1',
+            layerName: 'layer_StateBoundaries_1',
+            pane: 'pane_StateBoundaries_1',
+            onEachFeature: pop_StateBoundaries_1,
+            style: style_StateBoundaries_1_0,
         });
-        bounds_group.addLayer(layer_StateBoundaries_0);
-        map.addLayer(layer_StateBoundaries_0);
-        function pop_MeatPackingPlants_1(feature, layer) {
+        bounds_group.addLayer(layer_StateBoundaries_1);
+        map.addLayer(layer_StateBoundaries_1);
+        function pop_MeatPackingPlants_2(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (i in e.target._eventParents) {
@@ -212,9 +225,11 @@
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
 
-        function style_MeatPackingPlants_1_0() {
-            return {
-                pane: 'pane_MeatPackingPlants_1',
+        function style_MeatPackingPlants_2_0(feature) {
+            switch(String(feature.properties['PLANT_TYPE'])) {
+                case 'Farm/Ranch':
+                    return {
+                pane: 'pane_MeatPackingPlants_2',
                 radius: 4.0,
                 opacity: 1,
                 color: 'rgba(61,128,53,1.0)',
@@ -224,37 +239,199 @@
                 weight: 2.0,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(84,176,74,1.0)',
+                fillColor: 'rgba(117,234,176,1.0)',
                 interactive: true,
             }
+                    break;
+                case 'Hatchery':
+                    return {
+                pane: 'pane_MeatPackingPlants_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(83,224,231,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Livestock Market':
+                    return {
+                pane: 'pane_MeatPackingPlants_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(233,25,70,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Other':
+                    return {
+                pane: 'pane_MeatPackingPlants_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(87,140,221,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Processing Plant':
+                    return {
+                pane: 'pane_MeatPackingPlants_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(67,200,60,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Renderer':
+                    return {
+                pane: 'pane_MeatPackingPlants_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(58,29,222,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Slaughter Market':
+                    return {
+                pane: 'pane_MeatPackingPlants_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,185,89,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Slaughter Plant':
+                    return {
+                pane: 'pane_MeatPackingPlants_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(186,71,240,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Storage Warehouse':
+                    return {
+                pane: 'pane_MeatPackingPlants_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(235,114,58,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Veterinary Hospital':
+                    return {
+                pane: 'pane_MeatPackingPlants_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(229,27,182,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_MeatPackingPlants_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(61,128,53,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(140,210,35,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
         }
-        map.createPane('pane_MeatPackingPlants_1');
-        map.getPane('pane_MeatPackingPlants_1').style.zIndex = 401;
-        map.getPane('pane_MeatPackingPlants_1').style['mix-blend-mode'] = 'normal';
-        var layer_MeatPackingPlants_1 = new L.geoJson(json_MeatPackingPlants_1, {
+        map.createPane('pane_MeatPackingPlants_2');
+        map.getPane('pane_MeatPackingPlants_2').style.zIndex = 402;
+        map.getPane('pane_MeatPackingPlants_2').style['mix-blend-mode'] = 'normal';
+        var layer_MeatPackingPlants_2 = new L.geoJson(json_MeatPackingPlants_2, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_MeatPackingPlants_1',
-            layerName: 'layer_MeatPackingPlants_1',
-            pane: 'pane_MeatPackingPlants_1',
-            onEachFeature: pop_MeatPackingPlants_1,
+            dataVar: 'json_MeatPackingPlants_2',
+            layerName: 'layer_MeatPackingPlants_2',
+            pane: 'pane_MeatPackingPlants_2',
+            onEachFeature: pop_MeatPackingPlants_2,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_MeatPackingPlants_1_0(feature));
+                return L.circleMarker(latlng, style_MeatPackingPlants_2_0(feature));
             },
         });
-        var cluster_MeatPackingPlants_1 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+        var cluster_MeatPackingPlants_2 = new L.MarkerClusterGroup({showCoverageOnHover: false,
             spiderfyDistanceMultiplier: 2});
-        cluster_MeatPackingPlants_1.addLayer(layer_MeatPackingPlants_1);
+        cluster_MeatPackingPlants_2.addLayer(layer_MeatPackingPlants_2);
 
-        bounds_group.addLayer(layer_MeatPackingPlants_1);
-        cluster_MeatPackingPlants_1.addTo(map);
+        bounds_group.addLayer(layer_MeatPackingPlants_2);
+        cluster_MeatPackingPlants_2.addTo(map);
         setBounds();
         map.addControl(new L.Control.Search({
-            layer: cluster_MeatPackingPlants_1,
+            layer: cluster_MeatPackingPlants_2,
             initial: false,
             hideMarkerOnCollapse: true,
             propertyName: 'PLANT_TYPE'}));
